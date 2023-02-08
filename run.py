@@ -1,141 +1,138 @@
-from fourmi import statistique as stat
-from fourmi import creation
-from fourmi import aleatoire
-from fourmi import save
+from ant import statistics as stat
+from ant import main
+from ant import random
+from ant import save
 import matplotlib.pyplot as plt
 import time
 import sys
 import numpy as np
 from scipy.optimize import curve_fit
 
-""" Paramètres du système """
-nb_fourmi = int(sys.argv[1])
+""" System settings """
+nb_ant = int(sys.argv[1])
 nb_traj = int(sys.argv[2])
 steps = int(sys.argv[3])
 noise_ratio = float(sys.argv[4])
 nb_iteration = int(sys.argv[5])
-comportement = int(sys.argv[6])
+behavior = int(sys.argv[6])
 t_init = time.time()
 liste_dir = []
 
-def script(comportement=3, nb_fourmi=1):
-    # Paramètre par défaut: immobile, 1 fourmi
-    """ Lancement de toutes les itérations """
+def script(behavior=3, nb_ant=1):
+    # Default settings: still, one ant
+    """ Launch of all iterations """
     global noise_ratio
     global liste_dir
-    bruit = []
+    noise = []
     parametre_loi = []
     for iteration in range(1, nb_iteration+1):
         if noise_ratio != 0:
             if nb_iteration != 1:
                 noise_ratio = iteration / (50*nb_iteration)
-        t0 = time.time() # initialisation du temps de calcul
-        statistics = stat.AntStat(steps) # initialise les tableaux
+        t0 = time.time() # initialize the calculation time
+        statistics = stat.AntStat(steps) # initialize arrays
         for traj in range(nb_traj):
-            donnees_fourmis = aleatoire.initialisation_aleatoire(nb_ant=nb_fourmi,
-                                                                 comportement=comportement)
-            liste_ant = creation.initialisation(donnees_fourmis)
-            liste_ant_final = creation.move(liste_ant, steps=steps, noise_ratio=noise_ratio)
-            for ant in liste_ant_final:
+            ants_data = random.random_initialization(nb_ant=nb_ant, behavior=behavior)
+            ant_list = main.initialisation(ants_data)
+            final_ant_list = main.move(ant_list, steps=steps, noise_ratio=noise_ratio)
+            for ant in final_ant_list:
                 data_ant = ant.get_data()
                 statistics.add_data(data_ant)
         
-        """ Récupération des données """
-        r2_moy, r2_var = statistics.get_stat()
+        """ Data recovery """
+        r2_mean, r2_var = statistics.get_stat()
         
-        """ Création des résultats pour un bruit constant sous forme de graphe """
-        temps = list(range(1, steps+1))
-        temps_reduit = list(range(int(steps*0.09), steps+1)) # enlève une partie des donnees car peu intéressantes
+        """ Creating results for constant noise as a graph """
+        times = list(range(1, steps+1))
+        reduced_time = list(range(int(steps*0.09), steps+1)) # removes part of the data because useless
         
         def power_law(x, a, b):
-            """ Fonction de la régression """
+            """ Regression function """
             return a * np.power(x, b)
         
-        popt, pcov = curve_fit(power_law, temps_reduit, r2_moy[-len(temps_reduit):]) # paramètres optimaux
+        popt, pcov = curve_fit(power_law, reduced_time, r2_mean[-len(reduced_time):]) # optimal parameters
         
         plt.subplot(211)
-        plt.title(f"Nb de fourmi: {nb_fourmi}, Nb de traj: {nb_traj}, Nb de pas: {steps}, Ratio du bruit: {round(noise_ratio, 4)}",
+        plt.title(f"Nb of ant: {nb_ant}, Nb of traj: {nb_traj}, Nb of steps: {steps}, Noise ratio: {round(noise_ratio, 4)}",
                   fontsize = 8)
-        plt.ylabel("distance au carré moyenne",fontsize = 7)
-        plt.loglog(temps[10:], r2_moy[10:])
+        plt.ylabel("average squared distance",fontsize = 7)
+        plt.loglog(times[10:], r2_mean[10:])
         plt.grid()
-        regress = plt.plot(temps_reduit, power_law(temps_reduit, *popt), label='power law', color="red")# régression
+        regress = plt.plot(reduced_time, power_law(reduced_time, *popt), label='power law', color="red")# regression
         plt.legend(regress, [f"{pcov}"], loc = 'lower right')
         
         plt.subplot(212)
         plt.xlabel("Time (in steps)",fontsize = 10)
-        plt.ylabel("variance de la distance carré moyenne",fontsize = 7)
-        plt.loglog(temps[10:], r2_var[10:])
+        plt.ylabel("mean squared distance variance",fontsize = 7)
+        plt.loglog(times[10:], r2_var[10:])
         plt.grid()
         
-        save.save_plot("Images", iteration, nb_fourmi) # Sauvegarde des résultats
-        save.save_data("Position", r2_moy, iteration, nb_fourmi) # Sauvegarde des résultats
+        save.save_plot("Pictures", iteration, nb_ant) # Saves the data
+        save.save_data("Position", r2_mean, iteration, nb_ant) # Saves the data
         
-        """ Création du graphe de l'évolution de la pente de la distance au
-        carré moyenne au cours du temps"""
-        taille_sous_liste = 500
-        init = len(temps_reduit)//taille_sous_liste
-        liste_coef_dir = [0 for i in range(init)]
-        liste_temps = [0 for i in range(init)]
-        liste_coef_corr = [0 for i in range(init)]
+        """ Creation of the graph of the evolution of the slope of the mean squared distance over time """
+        sublist_len = 500
+        init = len(reduced_time)//sublist_len
+        leading_coefficient_list = [0 for i in range(init)]
+        times_list = [0 for i in range(init)]
+        correlation_coefficient_list = [0 for i in range(init)]
         for i in range(init):
-            temps_isole = np.array(temps_reduit[i*taille_sous_liste : (i+1)*taille_sous_liste]) # sous-liste du temps
-            r2_isole = r2_moy[i*taille_sous_liste : (i+1)*taille_sous_liste] # sous-liste de r2_moy
-            coef_dir, coef_corr = stat.coeffdir(np.log(temps_isole), np.log(r2_isole))
+            isolated_time = np.array(reduced_time[i*sublist_len : (i+1)*sublist_len]) # time's sublist
+            isolated_r2 = r2_mean[i*sublist_len : (i+1)*sublist_len] # r2_mean's sublist
+            coef_dir, corr_coef = stat.coeffdir(np.log(isolated_time), np.log(isolated_r2))
             
-            liste_coef_dir[i] = coef_dir
-            liste_temps[i] = temps_isole.mean()
-            liste_coef_corr[i] = coef_corr
+            leading_coefficient_list[i] = coef_dir
+            times_list[i] = isolated_time.mean()
+            correlation_coefficient_list[i] = corr_coef
         
         plt.subplot(211)
-        plt.title(f"Coef directeur de la régression: {round(popt[1], 3)}")
-        plt.ylabel("Coef directeur", fontsize=10)
-        plt.plot(liste_temps[1:], liste_coef_dir[1:])
+        plt.title(f"Regression leading coefficient: {round(popt[1], 3)}")
+        plt.ylabel("Leading coefficient", fontsize=10)
+        plt.plot(times_list[1:], leading_coefficient_list[1:])
         plt.grid()
         
         plt.subplot(212)
-        plt.ylabel("Coef de corrélation")
-        plt.xlabel("Time", fontsize=10)
-        plt.scatter(liste_temps[1:], liste_coef_corr[1:], marker='+')
+        plt.ylabel("Correlation coefficient")
+        plt.xlabel("Time (in steps)", fontsize=10)
+        plt.scatter(times_list[1:], correlation_coefficient_list[1:], marker='+')
         plt.grid()
         
-        save.save_plot("Coef", iteration, nb_fourmi) # Sauvegarde des résultats
+        save.save_plot("Coef", iteration, nb_ant) # Saves the data
         
-        bruit.append(noise_ratio)
+        noise.append(noise_ratio)
         parametre_loi.append(popt[1])
 
         liste_dir.append(popt[1])
-        print(f"Temps de calcul: {time.time()-t0}")
+        print(f"Calculation time: {time.time()-t0}")
     
     if nb_iteration != 1:
-        # ne trace pas de graphe inutile
-        """ Création du graphe paramètre_loi en fonction de bruit """
-        plt.plot(bruit, parametre_loi)
-        plt.title(f"Nb de fourmi: {nb_fourmi}, Nb de traj: {nb_traj}, Nb de pas: {steps}, Nb d'itération: {nb_iteration}",fontsize = 8)
-        plt.xlabel("Bruit", fontsize = 7)
+        # do not draw unnecessary graphs
+        """ Creation of the graph of the parameter of the law depending on the noise """
+        plt.plot(noise, parametre_loi)
+        plt.title(f"Nb of ant: {nb_ant}, Nb of traj: {nb_traj}, Nb of steps: {steps}, Nb of iteration: {nb_iteration}",fontsize = 8)
+        plt.xlabel("Noise", fontsize = 7)
         plt.grid()
-        plt.ylabel("Paramètre de la loi de puissance", fontsize = 7)
+        plt.ylabel("Power law parameter", fontsize = 7)
         
-        save.save_plot("Résultats/bruit", iteration, nb_fourmi) # Sauvegarde des résultats
+        save.save_plot("Results/noise", iteration, nb_ant) # Saves the data
 
-""" Définition des boucles """
+""" Loops definition """
 if __name__ == '__main__':
-    if nb_fourmi != 1:
-        for nb_fourmis in range(2,10,3):
-            script(comportement, nb_fourmi=nb_fourmis)
+    if nb_ant != 1:
+        for nb_ants in range(2,10,3):
+            script(behavior, nb_ant=nb_ants)
     else:
-        script(comportement, nb_fourmi)
+        script(behavior, nb_ant)
 
-""" Graphe d'anayse de résultats """
-if nb_fourmi != 1:
-    liste_nb_fourmi = [i for i in range(2,10,3)]
-    plt.title(f"Nb de traj: {nb_traj}, Nb de pas: {steps}, Ratio du bruit: {round(noise_ratio, 4)}",
-                fontsize=8)
-    plt.xlabel("Nombre de fourmi", fontsize=10)
-    plt.ylabel("Paramètre de la loi de puissance", fontsize=7)
+""" Results analysis graph """
+if nb_ant != 1:
+    liste_nb_ant = [i for i in range(2,10,3)]
+    plt.title(f"Nb of traj: {nb_traj}, Nb of steps: {steps}, Noise ratio: {round(noise_ratio, 4)}", fontsize=8)
+    plt.xlabel("Number of ant", fontsize=10)
+    plt.ylabel("Power law parameter", fontsize=7)
     plt.grid()
-    plt.plot(liste_nb_fourmi, liste_dir)
+    plt.plot(liste_nb_ant, liste_dir)
     
-    save.save_plot("Résultats/fourmi", iteration=1, nb_fourmi=nb_fourmi)
+    save.save_plot("Results/ant", iteration=1, nb_ant=nb_ant)
     
-print(f"Temps de calcul total: {time.time()-t_init}")
+print(f"Total calculation time: {time.time()-t_init}")
