@@ -6,3 +6,5 @@ Results/
 
 ant/__pycache__/
 ant_interface/__pycache__/
+ant.egg-info/
+dist/
