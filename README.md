@@ -7,9 +7,11 @@ I also defined multiple behavior if multiple ants were to close. First what i me
 - 1 -> colors the box in white/black (depending on its current color), move forward.
 - 2 -> proceed as if there were no other ant.
 - 3 -> remain still
+
 ## How to install it ?
 One can use *pip install Langton-project* in the terminal in order to install every packages that i used in this project.
-## How does it works ?
+
+## How does it work ?
 You can launch the run.py file and give some argument in the terminal, for instance:
 *python3 run.py 2 30 12000 0.05 12 3* will launch the script with 2 ants, both following the behavior associated with 3, each ant will make 12000 steps and the data will be averaged over 30 iterations, each iteration will give each ant a new random set of initial parameters (position and orientation). Futhermore 5% of the 2D space will be filled with black boxes that will alter their path.
 
