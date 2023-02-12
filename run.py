@@ -16,15 +16,15 @@ noise_ratio = float(sys.argv[4])
 nb_iteration = int(sys.argv[5])
 behavior = int(sys.argv[6])
 t_init = time.time()
-liste_dir = []
+dir_list = []
 
 def script(behavior=3, nb_ant=1):
     # Default settings: still, one ant
-    """ Launch of all iterations """
+    """ Launch all iterations """
     global noise_ratio
-    global liste_dir
+    global dir_list
     noise = []
-    parametre_loi = []
+    law_parameter = []
     for iteration in range(1, nb_iteration+1):
         if noise_ratio != 0:
             if nb_iteration != 1:
@@ -100,15 +100,15 @@ def script(behavior=3, nb_ant=1):
         save.save_plot("Coef", iteration, nb_ant) # Saves the data
         
         noise.append(noise_ratio)
-        parametre_loi.append(popt[1])
+        law_parameter.append(popt[1])
 
-        liste_dir.append(popt[1])
+        dir_list.append(popt[1])
         print(f"Calculation time: {time.time()-t0}")
     
     if nb_iteration != 1:
         # do not draw unnecessary graphs
         """ Creation of the graph of the parameter of the law depending on the noise """
-        plt.plot(noise, parametre_loi)
+        plt.plot(noise, law_parameter)
         plt.title(f"Nb of ant: {nb_ant}, Nb of traj: {nb_traj}, Nb of steps: {steps}, Nb of iteration: {nb_iteration}",fontsize = 8)
         plt.xlabel("Noise", fontsize = 7)
         plt.grid()
@@ -125,14 +125,14 @@ if __name__ == '__main__':
         script(behavior, nb_ant)
 
 """ Results analysis graph """
-if nb_ant != 1:
-    liste_nb_ant = [i for i in range(2,10,3)]
+if nb_ant != 1 and nb_iteration == 1:
+    nb_ant_list = [i for i in range(2,10,3)]
     plt.title(f"Nb of traj: {nb_traj}, Nb of steps: {steps}, Noise ratio: {round(noise_ratio, 4)}", fontsize=8)
     plt.xlabel("Number of ant", fontsize=10)
     plt.ylabel("Power law parameter", fontsize=7)
     plt.grid()
-    plt.plot(liste_nb_ant, liste_dir)
+    plt.plot(nb_ant_list, dir_list)
     
-    save.save_plot("Results/ant", iteration=1, nb_ant=nb_ant)
+    save.save_plot("Results/ant", iteration=1, nb_ant=nb_ant) # Saves the data
     
 print(f"Total calculation time: {time.time()-t_init}")
