@@ -6,7 +6,7 @@ def read(fname):
 
 setup (
     name = "Langton-project",
-    version = "0.1",
+    version = "0.2",
     description = "Study of cellular automata",
     long_description = read("README.md"),
     author = "CHALAMET Victor",
