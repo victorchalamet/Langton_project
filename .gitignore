@@ -7,4 +7,3 @@ Results/
 ant/__pycache__/
 ant_interface/__pycache__/
 Langton_project.egg-info/
-dist/
