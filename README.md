@@ -9,7 +9,11 @@ I also defined multiple behavior if multiple ants were to close. First what i me
 - 3 -> remain still
 
 ## How to install it ?
-One can use *pip install Langton-project* in the terminal in order to install every packages that i used in this project.
+One can use
+```bash
+pip install Langton-project
+```
+in the terminal in order to install every packages that i used in this project.
 
 ## How does it work ?
 You can launch the run.py file and give some argument in the terminal, for instance:
