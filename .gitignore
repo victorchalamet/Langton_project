@@ -1,0 +1,8 @@
+# Directories that are created at the end of the run.py file
+Pictures/
+Position/
+Coef/
+Results/
+
+ant/__pycache__/
+ant_interface/__pycache__/
