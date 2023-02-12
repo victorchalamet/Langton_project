@@ -19,7 +19,6 @@ setup (
     install_requires = [
         "numpy",
         "datetime",
-        "turtle"
         ],
     classifiers = [
         'Development Status :: 3 - Alpha',
