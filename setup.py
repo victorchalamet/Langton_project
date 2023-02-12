@@ -14,7 +14,7 @@ setup (
     packages = ["Langton-project", "Langton-project_interface"],
     license = "MIT",
     url = "https://github.com/victorchalamet/Langton-project",
-    download_url = "https://github.com/victorchalamet/Langton-project/archive/refs/tags/v_0.1.tar.gz",
+    download_url = "https://github.com/victorchalamet/Langton-project/archive/refs/tags/v_0.2.tar.gz",
     keywords = ["emergence", "animation", "data"],
     install_requires = [
         "numpy",
