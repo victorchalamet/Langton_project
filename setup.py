@@ -11,10 +11,10 @@ setup (
     long_description = read("README.md"),
     author = "CHALAMET Victor",
     author_email = "victorchalamet@gmail.com",
-    packages = ["Langton-project", "Langton-project_interface"],
+    packages = ["Langton_project", "Langton_project_interface"],
     license = "MIT",
-    url = "https://github.com/victorchalamet/Langton-project",
-    download_url = "https://github.com/victorchalamet/Langton-project/archive/refs/tags/v_0.3.tar.gz",
+    url = "https://github.com/victorchalamet/Langton_project",
+    download_url = "https://github.com/victorchalamet/Langton_project/archive/refs/tags/v_0.3.tar.gz",
     keywords = ["emergence", "animation", "data"],
     install_requires = [
         "numpy",

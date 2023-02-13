@@ -1,7 +1,7 @@
-from ant import statistics as stat
-from ant import main
-from ant import random
-from ant import save
+from Langton_project import statistics as stat
+from Langton_project import main
+from Langton_project import random
+from Langton_project import save
 import matplotlib.pyplot as plt
 import time
 import sys
