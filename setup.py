@@ -5,7 +5,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup (
-    name = "Langton-project",
+    name = "Langton_project",
     version = "0.3",
     description = "Study of cellular automata",
     long_description = read("README.md"),
