@@ -6,7 +6,7 @@ def read(fname):
 
 setup (
     name = "Langton_project",
-    version = "0.1",
+    version = "0.2",
     description = "Study of cellular automata",
     long_description = read("README.md"),
     author = "CHALAMET Victor",
@@ -14,7 +14,7 @@ setup (
     packages = ["Langton_project", "Langton_project_interface"],
     license = "MIT",
     url = "https://github.com/victorchalamet/Langton_project",
-    download_url = "https://github.com/victorchalamet/Langton_project/archive/refs/tags/v_0.4.tar.gz",
+    download_url = "https://github.com/victorchalamet/Langton_project/archive/refs/tags/v_0.5.tar.gz",
     keywords = ["emergence", "animation", "data"],
     install_requires = [
         "numpy",
