@@ -24,7 +24,7 @@ will launch the script with 2 ants, both following the behavior associated with 
 
 The *run_interface.py* file can be launch to see the ants move and draw beautiful figures. How to initialize ants with the interface: you wil have to specify the number of ants, their initial position and orientation (0, 90, 180, 270), if you want noise and how many, if you want the posistion or the orientation to be random (be carefull, if you want to initialize multiple ants with the interface you will have to specify an initial position even though you have checked the "random positions" box), the size of the ants (only pick odd intergers), if you want a random color (suggested with more than one ant), the number of steps, the size of the screen, the speed of the animation and finally if you want to disable the animation.
 It can produce beautiful figure:
-![After 11000 steps](https://fr.wikipedia.org/wiki/Fourmi_de_Langton#/media/Fichier:LangtonsAnt.png)
+![After 11000 steps](https://upload.wikimedia.org/wikipedia/commons/d/d3/LangtonsAnt.png)
 
 ### Bibliography
 [1] C. Langton, (1986) « Studying artificial life with cellular automata », Physica 22D 120-149
