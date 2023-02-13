@@ -26,7 +26,7 @@ The *run_interface.py* file can be launch to see the ants move and draw beautifu
 It can produce beautiful figure:
 
 <p align="center">
-  <img src="(https://upload.wikimedia.org/wikipedia/commons/d/d3/LangtonsAnt.png)" alt="After 11000 steps"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/LangtonsAnt.png" alt="After 11000 steps"/>
 </p>
 
 ### Bibliography
