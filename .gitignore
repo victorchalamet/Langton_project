@@ -4,6 +4,6 @@ Position/
 Coef/
 Results/
 
-ant/__pycache__/
-ant_interface/__pycache__/
+Langton_project/__pycache__/
+Langton_project_interface/__pycache__/
 Langton_project.egg-info/
