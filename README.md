@@ -20,6 +20,10 @@ To clone the repository use
 ```bash
 git clone https://github.com/victorchalamet/Langton_project
 ```
+Then go inside the folder using
+```bash
+cd Langton_project
+```
 You can launch the run.py file and give some argument in the terminal, for instance:
 ```bash
 python3 run.py 2 30 12000 0.05 12 3
