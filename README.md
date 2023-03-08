@@ -16,6 +16,10 @@ pip install Langton-project
 in the terminal in order to install every packages that i used in this project. **In this case you'll have to write you own python file** and launch it (or just copying the run.py or run_interface.py files)
 
 ## How does it work ?
+To clone the repository use
+```bash
+git clone https://github.com/victorchalamet/Langton_project
+```
 You can launch the run.py file and give some argument in the terminal, for instance:
 ```bash
 python3 run.py 2 30 12000 0.05 12 3
